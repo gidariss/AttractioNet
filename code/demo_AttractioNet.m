@@ -67,7 +67,7 @@ imagesc(image);
 drawBBoxes(bbox_proposals_top_k,'LineWidth',3);
 title(sprintf('#%d box proposal',k));
 %**************************************************************************
+
 %********************* FREE GPU/CPU MEMORY (Caffe) ************************
 caffe.reset_all();
 %**************************************************************************
-
