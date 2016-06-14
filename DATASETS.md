@@ -15,6 +15,7 @@ In case you need to set up and use the [PASCAL VOC](http://host.robots.ox.ac.uk/
    $datasets/MSCOCO/annotations/instances_train2014.json 
    $datasets/MSCOCO/annotations/instances_val2014.json 
    $datasets/MSCOCO/annotations/image_info_test2015.json
+   $datasets/MSCOCO/annotations/image_info_test-dev2015.json
    ```
    where `$datasets` is the directory in your local machine that you usually use for storing all your datasets and `$datasets/MSCOCO` is the parent directory of the COCO dataset. 
 3. Create a symbolic link of the `$datasets` directory at `$AttractioNet/datasets`:
