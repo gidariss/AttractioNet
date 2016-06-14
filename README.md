@@ -18,6 +18,8 @@ The problem of computing category agnostic bounding box proposals is utilized as
  VOC 2007 test            | 0.547 | 0.740  | 0.848    | 0.575    | 0.666      | 0.788    |1.63secs
  ImageNet detection task val.| 0.412 | 0.618  | 0.748    |  -       | -          | -        |1.63secs
  NYU-Depth V2             | 0.159 | 0.389  | 0.579    | 0.205    | 0.419      | 0.498    |1.63secs
+ Average recall performance of *AttractioNet* box proposal generation approach.
+
 
 ### Citing AttractioNet
 
