@@ -43,7 +43,7 @@ and
 This code is released under the MIT License (refer to the LICENSE file for details).  
 
 ### Contents
-1. [Requirements:](#requirements)   
+1. [Requirements](#requirements)   
 2. [Installation](#installation)   
 3. [Downloading pre-computed bounding box proposals](#downloading-pre-computed-bounding-box-proposals)   
 4. [Preparing and using the COCO and PASCAL datasets](#preparing-and-using-the-coco-and-pascal-datasets)  
@@ -99,7 +99,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
     Do not worry about the warning messages. They also appear on my machine.  
 
 ### Demo
-After having complete the installation, you will be able to use *AttractioNet* for extracting bounding box proposals from any image. For a demo see the [demo_AttractioNet.m](https://github.com/gidariss/AttractioNet_private/blob/master/code/demo_AttractioNet.m) script.  Note that you will require a GPU with at least 4 Gbytes of memory in order to run the demo. 
+After having complete the installation, you will be able to use *AttractioNet* for extracting bounding box proposals from any image. For a demo see the [demo_AttractioNet.m](https://github.com/gidariss/AttractioNet/blob/master/code/demo_AttractioNet.m) script.  Note that you will require a GPU with at least 4 Gbytes of memory in order to run the demo. 
 
 ### Downloading pre-computed bounding box proposals
 We provide pre-computed bounding box proposals --- using the same AttractioNet model that we provide here --- for the following datasets:
@@ -118,4 +118,4 @@ We provide pre-computed bounding box proposals --- using the same AttractioNet m
 Each package contains the AttractioNet box proposals of the corresponding data set stored using a separate box proposal file per image. Specifically, the box proposals of each image are stored in Matlab files (.mat files) using the same filenames as those that the images have. Each Matlab file contains a single data field, called *boxes*, that is a `K x 5` single precision array with the box proposals of the corresponding image (where `K` is the number of box proposals). Each row of the *boxes* array contains a single bounding box proposal represented by the 5 values `[x0,y0,x1,y1,obj]`, where `(x0,y0)` and `(x1,y1)` are its top-left and bottom-right coordinates correspondingly (specifically, 1-based pixel coordinates) and `obj` is its objectness score. Note that the box proposals are already sorted w.r.t. their objectness score in decreasing order.
 
 ### Preparing and using the COCO and PASCAL datasets
-In case you need to set up and use the COCO and/or PASCAL datasets (e.g. generating or evaluating AttractioNet proposals) then follow the instructions on the [DATASET.md](https://github.com/gidariss/AttractioNet_private/blob/master/DATASETS.md) file.
+In case you need to set up and use the COCO and/or PASCAL datasets (e.g. generating or evaluating AttractioNet proposals) then follow the instructions on the [DATASET.md](https://github.com/gidariss/AttractioNet/blob/master/DATASETS.md) file.
