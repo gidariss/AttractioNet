@@ -87,4 +87,4 @@ In case you need to set up and use the [PASCAL VOC](http://host.robots.ox.ac.uk/
    ```
 
 ###Generating and evaluating AttractioNet box proposals on COCO and PASCAL dataset
-For a demo on how to generate and evaluate AttractioNet box proposals on the COCO and/or PASCAL datasets see the [demo_extract_AttractioNet_proposals_from_dataset.m](https://github.com/gidariss/AttractioNet_private/blob/master/code/demo_extract_AttractioNet_proposals_from_dataset.m) script.
+For a demo on how to generate and evaluate AttractioNet box proposals on the COCO and/or PASCAL datasets see the [demo_extract_AttractioNet_proposals_from_dataset.m](https://github.com/gidariss/AttractioNet/blob/master/code/demo_extract_AttractioNet_proposals_from_dataset.m) script.
