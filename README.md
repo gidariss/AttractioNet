@@ -82,12 +82,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
     # $caffe_AttractioNet: directory where caffe is cloned and installed    
     ln -sf $caffe_AttractioNet $AttractioNet/external/caffe_AttractioNet   
     ```      
-4. Download the [***AttractioNet pre-trained model***](https://drive.google.com/file/d/0BwxkAdGoNzNTV2N3RjN5dXNpWVE/view?usp=sharing). Note that the provided model is actually the fast version of AttractioNet model that is described on section 3.1.3 of technical report. After downloading, gunzip and untar the .tar.gz archive file with the AttractioNet model files on the directory `$AttractioNet/models-exps/AttractioNet_Model` by running:   
-   ```Shell
-   
-   tar xvfz AttractioNet_Model.tar.gz -C $AttractioNet/models-exps/    
-   ```   
-5.  Open Matlab from the `$AttractioNet/` directory and run the `AttractioNet_build.m` script:  
+4.  Open Matlab from the `$AttractioNet/` directory and run the `AttractioNet_build.m` script:  
    ```Shell
    
     $ cd $AttractioNet  
@@ -96,7 +91,12 @@ This code is released under the MIT License (refer to the LICENSE file for detai
     # matlab command line enviroment
     >> AttractioNet_build   
     ``` 
-    Do not worry about the warning messages. They also appear on my machine.  
+    Do not worry about the warning messages. They also appear on my machine. 
+5. Download the [***AttractioNet pre-trained model***](https://drive.google.com/file/d/0BwxkAdGoNzNTV2N3RjN5dXNpWVE/view?usp=sharing). Note that the provided model is actually the fast version of AttractioNet model that is described on section 3.1.3 of technical report. After downloading, unzip and untar the .tar.gz archive file with the AttractioNet model files on the directory `$AttractioNet/models-exps/AttractioNet_Model` by running:   
+   ```Shell
+   
+   tar xvfz AttractioNet_Model.tar.gz -C $AttractioNet/models-exps/    
+   ```   
 
 ### Demo
 After having complete the installation, you will be able to use *AttractioNet* for extracting bounding box proposals from any image. For a demo see the [demo_AttractioNet.m](https://github.com/gidariss/AttractioNet/blob/master/code/demo_AttractioNet.m) script.  Note that you will require a GPU with at least 4 Gbytes of memory in order to run the demo. 
