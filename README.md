@@ -31,20 +31,22 @@ The problem of computing category agnostic bounding box proposals is utilized as
 ### Citing AttractioNet
 
 If you find AttractioNet useful in your research, please consider citing:   
-> @article{gidaris2016attend,  
+```   
+@article{gidaris2016attend,  
   title={Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization},  
   author={Gidaris, Spyros and Komodakis, Nikos},   
   year={2016}
 }  
-
+```
 and 
-
-> @inproceedings{gidaris2016locnet,  
+```
+@inproceedings{gidaris2016locnet,  
   title={LocNet: Improving Localization Accuracy for Object Detection},  
   author={Gidaris, Spyros and Komodakis, Nikos},   
   booktitle={Computer Vision and Pattern Recognition (CVPR), 2016 IEEE Conference on},  
   year={2016}  
-}  
+}
+```
 
 ### License
 This code is released under the MIT License (refer to the LICENSE file for details).  
