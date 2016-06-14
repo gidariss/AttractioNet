@@ -34,8 +34,7 @@ If you find AttractioNet useful in your research, please consider citing:
 > @article{gidaris2016attend,  
   title={Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization},  
   author={Gidaris, Spyros and Komodakis, Nikos},   
-  journal={arXiv preprint arXiv:1511.07763},   
-  year={2015}
+  year={2016}
 }  
 
 and 
