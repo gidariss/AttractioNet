@@ -67,7 +67,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
     # switch on the AttractioNet branch  
     git checkout AttractioNet                              
     ```         
-  Then follow the Caffe installation instructions [here](http://caffe.berkeleyvision.org/installation.html). **Note** that you have to install Caffe with the cuDNN(-v5) library.   
+  Then follow the Caffe and Matcaffe installation instructions [here](http://caffe.berkeleyvision.org/installation.html). **Note** that you have to install Caffe with the cuDNN(-v5) library.   
 2. Clone the *AttractioNet* code in your local machine:  
    ```Shell
    
