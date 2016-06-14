@@ -1,0 +1,7 @@
+datasets
+bin
+external/caffe_AttractioNet
+models-exps
+code/MatlabAPI
+box_proposals
+*~
