@@ -11,15 +11,22 @@ The *AttractioNet* code implements the following arxiv paper:
 **Abstract:**  
 The problem of computing category agnostic bounding box proposals is utilized as a core component in many computer vision tasks and thus has lately attracted a lot of attention. In this work we propose a new approach to tackle this problem that is based on an active strategy for generating box proposals that starts from a set of seed boxes, which are uniformly distributed on the image, and then progressively moves its attention on the promising image areas where it is more likely to discover well localized bounding box proposals. We call our approach *AttractioNet* and a core component of it is a CNN-based category agnostic object location refinement module that is capable of yielding accurate and robust bounding box predictions regardless of the object category. We extensively evaluate our *AttractioNet* approach on several image datasets (i.e. COCO, PASCAL, ImageNet detection and NYU-Depth V2 datasets) reporting on all of them state-of-the-art results that surpass the previous work in the field by a significant margin and also providing strong empirical evidence that our approach is capable to generalize to unseen categories. Furthermore, we evaluate our *AttractioNet* proposals in the context of the object detection task using a VGG16-Net based detector and the achieved detection performance on COCO manages to significantly surpass all other VGG16-Net based detectors while even being competitive with a heavily tuned ResNet-101 based detector.
 
-### Main Results
+### Sample experimental results
+ Average recall results of *AttractioNet* box proposal generation approach: 
+ 
  Test set                 | AR@10 | AR@100 | AR@1000  | AR@Small |  AR@Medium | AR@Large |time/img
 -------------------------:|:-----:|:------:|:--------:|:--------:|:----------:|:--------:|:------:
  COCO 2014 val.           | 0.326 | 0.532  | 0.660    | 0.317    | 0.621      | 0.771    |1.63secs
  VOC 2007 test            | 0.547 | 0.740  | 0.848    | 0.575    | 0.666      | 0.788    |1.63secs
  ImageNet detection task val.| 0.412 | 0.618  | 0.748    |  -       | -          | -        |1.63secs
  NYU-Depth V2             | 0.159 | 0.389  | 0.579    | 0.205    | 0.419      | 0.498    |1.63secs
- Average recall performance of *AttractioNet* box proposal generation approach.
 
+
+ Average precision results on COCO test-dev2015 set of a VGG16-Net based object detector with *AttractioNet* proposals: 
+ 
+ Method | AP@0.50 | AP@0.75 | AP@0.50:0.95  | AP@Small |  AP@Medium | AP@Large 
+-------:|:-------:|:-------:|:-------------:|:--------:|:----------:|:--------:
+ *AttractioNet* based detector |  0.537  | 0.363   | 0.341         | 0.175    | 0.365      | 0.469    
 
 ### Citing AttractioNet
 
