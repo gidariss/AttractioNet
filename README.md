@@ -87,7 +87,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
    
    tar xvfz AttractioNet_Model.tar.gz -C $AttractioNet/models-exps/    
    ```   
-5.  open matlab from the `$AttractioNet/` directory and run the `AttractioNet_build.m` script:  
+5.  Open Matlab from the `$AttractioNet/` directory and run the `AttractioNet_build.m` script:  
    ```Shell
    
     $ cd $AttractioNet  
