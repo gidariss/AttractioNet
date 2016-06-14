@@ -7,9 +7,10 @@ In case you need to set up and use the [PASCAL VOC](http://host.robots.ox.ac.uk/
    ```Shell  
    
    # Images:
-   $datasets/MSCOCO/images/train2014/ # train 2014 images
-   $datasets/MSCOCO/images/val2014/ # val 2014 images
-   $datasets/MSCOCO/images/test2015/ # test 2015 images
+   $datasets/MSCOCO/images/train2014/ # train 2014 images directory
+   $datasets/MSCOCO/images/val2014/ # val 2014 images directory
+   $datasets/MSCOCO/images/test2015/ # test 2015 images directory
+   $datasets/MSCOCO/images/test-dev2015/ # test-dev 2015 images directory
 
    # Annotation/info .json files:
    $datasets/MSCOCO/annotations/instances_train2014.json 
@@ -17,7 +18,11 @@ In case you need to set up and use the [PASCAL VOC](http://host.robots.ox.ac.uk/
    $datasets/MSCOCO/annotations/image_info_test2015.json
    $datasets/MSCOCO/annotations/image_info_test-dev2015.json
    ```
-   where `$datasets` is the directory in your local machine that you usually use for storing all your datasets and `$datasets/MSCOCO` is the parent directory of the COCO dataset. 
+   where `$datasets` is the directory in your local machine that you usually use for storing all your datasets and `$datasets/MSCOCO` is the parent directory of the COCO dataset. Note that the `$datasets/MSCOCO/images/test-dev2015/` directory could be just a symbolic link to the `$datasets/MSCOCO/images/test2015/` directory:
+   ```Shell
+   
+   ln -sf $datasets/MSCOCO/images/test2015 $datasets/MSCOCO/images/test-dev2015  
+   ```
 3. Create a symbolic link of the `$datasets` directory at `$AttractioNet/datasets`:
    ```Shell
    
