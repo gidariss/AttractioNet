@@ -6,7 +6,6 @@ The *AttractioNet* code implements the following arxiv paper:
 **Title:**      "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"    
 **Authors:**     Spyros Gidaris, Nikos Komodakis    
 **Institution:** Universite Paris Est, Ecole des Ponts ParisTech    
-**ArXiv Link:**  http://arxiv.org/abs/1511.07763   
 **Code:**        https://github.com/gidariss/AttractioNet 
 
 **Abstract:**  
