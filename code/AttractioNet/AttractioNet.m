@@ -9,29 +9,9 @@ function [ bbox_props_out, extra_out_data] = AttractioNet(model, img, conf)
 %
 % OUTPUTS:
 % (1) bbox_props_out: is a K x 5 single precision array where K is the
-% number of output box proposals (by default K=2000). Each row of the 
-% bbox_props_out array is a single bounding box proposal represented by the
-% 5 values [x0,y0,x1,y1,obj] where (x0,y0) and (x1,y1) are the top-left 
-% and bottom-right coordinates of the bounding box in pixels (one-based 
-% coordinates) and obj is the objectness score of the bounding box proposal 
-% after the multi-threshold NMS re-ordering. Note that the box proposals
-% are already sorted w.r.t. to their objectness score obj in decreasing 
-% order. 
+% number of output box proposals (by default K=2000). 
 % (2) extra_out_data: struct that contains intermediate data of the box
 % proposal extraction process.
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 model.max_rois_num_in_gpu = 1000;
 %************************* GENERATE SEED BOXES ****************************

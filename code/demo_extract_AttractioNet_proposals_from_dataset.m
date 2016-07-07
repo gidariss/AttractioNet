@@ -6,7 +6,6 @@
 AttractioNet_extract_box_proposals_from_dataset('AttractioNet_Model',...
     'gpu_id',1,'dataset','pascal','set_name','test_2007','eval_props',true);
 
-
 % It first extracts AttractioNet box proposals (using the 1st GPU) from the
 % first 5k images of COCO val 2014 set and then evaluates their average 
 % recall performance.
