@@ -23,6 +23,7 @@ bbox_props_in = single(AttractioNet_create_seed_boxes(img, conf.num_seed_boxes))
 conf.threshold = -Inf;
 bbox_props_cands_per_iter = cell(conf.num_iterations,1);
 skip_image_conv_layers = false;
+
 for iter = 1:conf.num_iterations
     %*********************** ATTEND & REFINE PROCEDURE ********************
     % APPLY THE CATEGORY AGNOSTIC OBJECTNESS SCORING MODULE:
@@ -76,7 +77,7 @@ end
 
 function [bboxes_coord, bboxes_scores] = reduce_box_proposals_num(bboxes_coord, bboxes_scores, bboxes_coord_prev, conf)
 % It reduces the candidate box proposal by performing the following operations:
-% (1) (optional) ealy stop sequences of bounding box predictions that have 
+% (1) (optional) early stop sequences of bounding box predictions that have 
 %      already converged. A sequence is considered to have converged if the 
 %      IoU of the previous input box (bboxes_coord_prev) with the predicted  
 %      box (bboxes_coord) is greater than conf.iou_thrs_close. This step is

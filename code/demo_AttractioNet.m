@@ -19,6 +19,7 @@ mat_file_name  = 'box_proposal_model.mat';
 model = AttractioNet_load_model(full_model_dir, mat_file_name);
 %**************************************************************************
 %********************** CONFIGURATION PARAMETERS **************************
+disp(' ');
 box_prop_conf = AttractioNet_get_defaul_conf();
 fprintf('AttractioNet configuration params:\n');
 disp(box_prop_conf);
