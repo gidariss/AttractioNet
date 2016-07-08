@@ -35,8 +35,13 @@ else
     img = imresize(img, [im_scaled_size(1), im_scaled_size(2)], 'bilinear', 'antialiasing', false);
 end
 
-img = single(img); % transform to single precision 
-img = img(:,:,[3 2 1]); % transform from RGB -> BGR (necessary for Caffe)
+img = single(img); % transform to single precision
+try
+    img = img(:,:,[3 2 1]); % transform from RGB -> BGR (necessary for Caffe)
+catch
+    % implies this is a gray-scale image
+    img = repmat(img, [1 1 3]);
+end
 % subtruct the mean pixel from the image
 img = bsxfun(@minus, img, reshape(mean_pix, [1, 1, 3]));
 img = permute(img, [2 1 3]); % permute from [Height x Width x 3] to [Width x Height x 3] (necessary for Caffe)
