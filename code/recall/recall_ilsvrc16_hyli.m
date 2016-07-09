@@ -2,7 +2,6 @@ function recall_ilsvrc16_hyli(dataset)
 % revised by Hongyang
 % date:         July 7, 2016
 
-clear;
 if nargin < 1
     dataset = 'official';
 end
@@ -24,7 +23,7 @@ if strcmp(dataset, 'official')
     
 elseif strcmp(dataset, 'augment')
     
-    root_folder = '/media/hongyang/Hongyang_MobileDrive/dataset_in_mobile_drive/ILSVRC2016';
+    root_folder = '/home/hyli/dataset/imagenet16';
     gt_path = [root_folder '/ILSVRC2016_DET_bbox_aug'];
     
     result_name = 'attentioNet_provided_model_July_7';
@@ -86,8 +85,10 @@ for i = 1:length(cls_dir)
         cls_list = unique(extractfield(gt_all_objects, 'name'));
         
         for kk = 1:length(cls_list)
-            
+            % per CLASS
             cls_id = find(strcmp(cls_list{kk}, name_list) == 1);
+            if isempty(cls_id), continue; end %keyboard;  end
+            
             curr_gt_bbox = gt_bbox(...
                 strcmp(cls_list{kk}, extractfield(gt_all_objects, 'name')), :);
             try
@@ -109,13 +110,19 @@ for i = 1:length(cls_dir)
     end
 end
 
-disp(' ');
+fprintf('\n');
 for i = 1:total_cls_num
     recall_per_cls(i).recall = ...
         recall_per_cls(i).correct_inst/recall_per_cls(i).total_inst;
     fprintf('cls #%3d: %s\t\trecall: %.4f\n', ...
         i, recall_per_cls(i).name, recall_per_cls(i).recall);
 end
-mean_recall = mean(extractfield(recall_per_cls, 'recall'));
-disp(' ');
-disp(mean_recall);
+
+%% show the result
+all_recall = extractfield(recall_per_cls, 'recall');
+[~, ind] = sort(all_recall, 'descend');
+% TODO
+recall_sort = recall_per_cls(ind);
+
+mean_recall = mean(all_recall(all_recall>0));
+fprintf('\nrecall@(p_%d, ov_%f) is : %.3f', top_k, ov, mean_recall);
