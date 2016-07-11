@@ -8,10 +8,7 @@ function scores = AttractioNet_objectness_scoring(model, image, bboxes, skip_ima
 % INPUTS:
 % 1) model:  (data type struct) the AttractioNet model
 % 2) image:  a [Height x Width x 3] uint8 matrix with the image 
-% 3) bboxes: a N x 4 array with the bounding box coordinates; each row is 
-% the oordinates of a bounding box in the form of [x0,y0,x1,y1] where 
-% (x0,y0) is tot-left corner and (x1,y1) is the bottom-right corner. N is 
-% the number of bounding boxes.
+% 3) bboxes: a N x 4 array with the bounding box coordinates
 % 4) skip_image_conv_layers: boolean value; if true it skips extracting the
 % image convolutional feature maps (in this cases it is assumed that the
 % image convolutional feature maps have already been extracted and are 
@@ -20,19 +17,6 @@ function scores = AttractioNet_objectness_scoring(model, image, bboxes, skip_ima
 % OUTPUT:
 % scores: N x 1 array with the objectness scores of each bounding box. N 
 % is the number of bounding boxes.
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 if ~exist('skip_image_conv_layers','var'), skip_image_conv_layers = false; end
 
@@ -61,11 +45,11 @@ if ~iscell(output_blob_names_), output_blob_names_ = {output_blob_names_}; end
 % CNN (sub-)network that implements the objectness scoring module
 [outputs, output_blob_names] = run_region_based_net_on_img(model, image, bboxes, ...
     'output_blob_names', output_blob_names_, 'input_blob_names', input_blob_names_, ...
-    'skip_image_conv_layers',skip_image_conv_layers);
+    'skip_image_conv_layers', skip_image_conv_layers);
 
 % get the output blob that corresponds to the confidence scores of the
 % bounding boxes
-idx = find(strcmp(output_blob_names,model.score_out_blob));
+idx = find(strcmp(output_blob_names, model.score_out_blob));
 assert(numel(idx) == 1);
 scores = outputs{idx}';
 

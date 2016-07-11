@@ -21,12 +21,14 @@ ip.addParamValue('max_per_image',  [2000, 1000,  400,  200,  100,   40,   20,   
 ip.addParamValue('num_iterations',         5,  @isscalar);  % number of iterations.
 ip.addParamValue('num_seed_boxes',     10000,  @isscalar);  % number of seed boxes.
 ip.addParamValue('max_per_image_init',  2000,  @isscalar);  % number of boxes that will be kept after the first iteration.
-ip.addParamValue('num_output_boxes',    2000,  @isscalar);  % number of output box proposals.
 ip.addParamValue('iou_thrs_close',      0.90,  @isscalar);  
 % iou_thrs_close: is an iou threshold that is being used in the fast version 
 % of the algorithm in order to suppress candide box proposals that are very 
 % close to each other (their IoU is greater or equal to iou_thrs_close) 
 % in order to avoid performing unnecessary computations.
+
+% number of output box proposals
+ip.addParamValue('num_output_boxes',    2000,  @isscalar);  
 ip.addParamValue('scales',             1000,   @isnumeric);  % the shortest dimension of the image before is fed to the proposal model
 ip.addParamValue('max_size',           1400,   @isscalar); % maximum size of the lon
 % during test time, the image is scaled such that its shortest dimension to be 

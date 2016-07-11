@@ -1,49 +1,37 @@
-function [bboxes_out, keep_indices] = AttractioNet_postprocess(bboxes_in, varargin)
+function [bboxes_out, keep_indices] = ...
+    AttractioNet_postprocess(bboxes_in, varargin)
 % AttractioNet_postprocess: It implements the single/multi threshod
 % non-max-suppression (NMS) steps involved in AttractioNet
 % 
 % INPUT:
 % 1) bboxes_in: contains the candidate bounding boxes on which the NMS 
 % step(s) will be applied. It is a Nb x 5 array, where Nb is the number of 
-% input candidate bounding boxes; the first 4 columns of this array contain 
-% the bounding box coordinates in the form of [x0,y0,x1,y1] (where the 
-% (x0,y0) and (x1,y1) are the top-left and bottom-right corners) and the 
-% last column contains the confidence score of the bounding boxes
+% input candidate bounding boxes.
+%
 % 2) thresholds: scalar value with a minimum score threshold used for
 % removing candidate bounding boxes with low confidence prior to applying 
 % the NMS step(s).
+%
 % 3) nms_iou_thrs: Nk x 1 vector with the IoU threshold(s) that will be 
 % used during the NMS step(s). In case the single NMS step is applied Nk
 % equals to 1.
+%
 % 4) max_per_image: Nk x 1 vector with the maximum number of bounding boxes 
-% that will be kept after each NMS step. 
+% that will be kept after each NMS step.
+% 
 % 5) mult_thr_nms: boolean value, if set to true then the multi-threshold
 % non-max-suppresion strategy is applied.
 %       
 % OUTPUT:
 % 1) bboxes_out: K x 5 arrray with output bounding boxes. It has the same
-% format as bboxes_in.
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
+% format as bboxes_in. 
 
 ip = inputParser;
-ip.addParamValue('max_per_image',       200, @isnumeric);
-ip.addParamValue('use_gpu',           false, @islogical);
 ip.addParamValue('thresholds',           -3, @isnumeric);
+ip.addParamValue('max_per_image',       200, @isnumeric);
 ip.addParamValue('nms_iou_thrs',        0.3, @isnumeric);
+ip.addParamValue('use_gpu',           false, @islogical);
 ip.addParamValue('mult_thr_nms',      false, @islogical);
-
 ip.parse(varargin{:});
 opts = ip.Results;
 
@@ -83,22 +71,6 @@ end
 function [bboxes_out, indices] = apply_single_thr_nms(bboxes_in, score_thresh, nms_iou_thrs, max_per_image, use_gpu)
 % apply_nms applies the non-maximum-suppression step on the set of scored
 % candidate bounding boxes.
-% 
-% INPUT:
-% 1) bboxes_in: a N x 5 array with candidate bounding boxes.
-% The 5-th column contains the confidence score of each bounding box.
-% 2) score_thresh: scalar value with a minimum score threshold used for
-% removing candidate bounding boxes with low confidence prior to applying 
-% the non-max-suppression step. 
-% 3) nms_iou_thrs: the IoU threshold that will be used during the
-% non-maximum-suppression step.
-% 4) max_per_image: scalar value with the maximum number of  bounding boxes 
-% that will be kept after the NMS step.
-% 5) use_gpu: boolean value that if set to true then the
-% non-maximum-suppresion step will be performed on the GPU
-% 
-% OUTPUT:
-% 1) bboxes_out: a ND x 5 array with the output bounding boxes
 
 bboxes_out = zeros(0, 5, 'single');
 indices   = zeros(0, 1, 'single');
@@ -118,29 +90,11 @@ end
 
 end
 
-function [bboxes_out, indices] = apply_multi_thr_nms(bboxes_in, score_thresh, nms_iou_thrs, max_per_image, use_gpu)
+function [bboxes_out, indices] = ...
+    apply_multi_thr_nms(bboxes_in, score_thresh, nms_iou_thrs, max_per_image, use_gpu)
 % Applies multi-threshold non-maximum-suppression step of scored candidate bounding boxes.
-% 
-% INPUT:
-% 1) bboxes_in: a N x 5 array with candidate bounding boxes.
-% The 5-th column contains the confidence score of each bounding box.
-% 2) score_thresh: scalar value with a minimum score threshold used for
-% removing candidate bounding boxes with low confidence prior to applying 
-% any non-max-suppression step. 
-% 3) nms_iou_thrs: Nk x1 vector with the IoU thresholds that will be used
-% during the multi-threshold non-max-suppression step. Note that those IoU
-% thresholds must be in descreasing order
-% 4) max_per_image: Nk x1 vector with the maximum number of bounding boxes
-% of each NMS step. For instance, after the i-th NMS with IoU threshold of 
-% nms_iou_thrs(i), the top max_per_image(i) bounding boxes will be kept
-% 5) use_gpu: boolean value that if set to true then the
-% non-maximum-suppresion steps will be performed on the GPU
-% 
-% OUTPUT:
-% 1) bboxes_out: a ND x 5 array with the output bounding boxes
 
 assert(length(nms_iou_thrs) == length(max_per_image))
-
 assert(issorted(nms_iou_thrs(end:-1:1)),...
     'The IoU thresholds of the Multi-threshold NMS step must be in decreasing order')
 
@@ -178,25 +132,36 @@ if ~isempty(bboxes_in)
 
     % Take the top max_per_image(end) bounding boxes of the last IoU
     % threshold. Note that it is assumed that the IoU thresholds are in
-    % decreasing order. So, the last IoU threshold would be the smallest
-    % one.
-    indices = inds{end}(1:min(max_per_image(end),length(inds{end}))); % keep top max_per_image(end) bounding boxes
+    % decreasing order. So the last IoU threshold would be the smallest.
+    
+    % keep top max_per_image(end) bounding boxes
+    indices = inds{end}(1:min(max_per_image(end),length(inds{end}))); 
     indices = indices(:);
-    scores  = (num_iou_thrs-1) + bboxes_in(indices,5); % change the scores of the selected bounding boxes
+    % change the scores of the selected bounding boxes
+    scores  = (num_iou_thrs-1) + bboxes_in(indices,5); 
+    
     for i = (num_iou_thrs-1):-1:1 % For the remaining NMS steps
         % (a) Find the indices of the bounding boxes produced during the i-th 
         % NMS step and that are not in the set of the already selected output
         % bounding boxes (indices = the already selected output bounding boxes)
-        inds_this_thr = setdiff(inds{i},indices,'stable');
+        inds_this_thr = setdiff(inds{i}, indices, 'stable');
+        
         % (b) Take from the above set of bounding boxes the top (max_per_image(i)-length(indices)) 
         % bounding boxes where length(indices) are the number of output bounding
-        % boxes already selected. This consists the s
-        inds_this_thr = inds_this_thr(1:min((max_per_image(i)-length(indices)),length(inds_this_thr)));
-        scores_this_thr = (i-1) + bboxes_in(inds_this_thr,5); % change the scores of the just picked bounding boxes
+        % boxes already selected. 
+        
+        % hyli: not 100% sure
+        temp = max_per_image(i)-length(indices);
+        %temp = max_per_image(i);
+        
+        inds_this_thr = inds_this_thr( 1 : min(temp, length(inds_this_thr)) );
+        % change the scores of the just picked bounding boxes
+        scores_this_thr = (i-1) + bboxes_in(inds_this_thr,5);
+        
         % (c) Add the bounding boxes picked on the above step (set: inds_this_thr)
         % to the set of output bounding boxes (set: indices)
-        indices   = [indices;inds_this_thr(:)]; 
-        scores    = [scores;scores_this_thr(:)];
+        indices   = [indices; inds_this_thr(:)]; 
+        scores    = [scores; scores_this_thr(:)];
     end
     bboxes_out      = bboxes_in(indices,:);
     bboxes_out(:,5) = scores;    
