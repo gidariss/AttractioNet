@@ -27,11 +27,11 @@ function [bboxes_out, keep_indices] = ...
 % format as bboxes_in. 
 
 ip = inputParser;
-ip.addParamValue('thresholds',           -3, @isnumeric);
-ip.addParamValue('max_per_image',       200, @isnumeric);
-ip.addParamValue('nms_iou_thrs',        0.3, @isnumeric);
-ip.addParamValue('use_gpu',           false, @islogical);
-ip.addParamValue('mult_thr_nms',      false, @islogical);
+ip.addParameter('thresholds',         -inf, @isnumeric);
+ip.addParameter('max_per_image',       200, @isnumeric);
+ip.addParameter('nms_iou_thrs',        0.3, @isnumeric);
+ip.addParameter('use_gpu',            true, @islogical);
+ip.addParameter('mult_thr_nms',      false, @islogical);
 ip.parse(varargin{:});
 opts = ip.Results;
 

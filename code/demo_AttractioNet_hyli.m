@@ -1,5 +1,5 @@
 % demo_AttractioNet demonstrates how to use AttractioNet for extracting the
-% bounding box proposals from ilsvrc 2016 and beyond.
+% bounding box proposals from ilsvrc 2016 new data.
 
 %clc;
 clear;
