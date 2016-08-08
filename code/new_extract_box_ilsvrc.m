@@ -40,10 +40,10 @@ disp(model);
 %****************************** READ IMAGE ********************************
 % dataset
 result_name = 'provided_model_Aug_5th';
-% sub_dataset = 'val1';
-% imdb.name = 'ilsvrc14_val1';
-sub_dataset = 'train14';
-imdb.name = 'ilsvrc14_train14';
+sub_dataset = 'val1';
+imdb.name = 'ilsvrc14_val1';
+% sub_dataset = 'train14';
+% imdb.name = 'ilsvrc14_train14';
 
 % ------------------------------------------
 result_path = sprintf('./box_proposals/author_provide/%s', sub_dataset);
@@ -107,11 +107,41 @@ if ~exist(whole_proposal_file, 'file')
     save(whole_proposal_file, 'boxes_uncut');
 end
 
+%% ========= temporal =========
+load(whole_proposal_file);
+box_prop_conf.threshold = -Inf;
+boxes_all = cell(length(test_im_list), 1);
+
+for kk = 1:length(boxes_uncut)
+    if kk == 1 || kk == length(boxes_uncut) || mod(kk, 1000) == 0
+        fprintf('temp, progress: (%d/%d)', kk, length(test_im_list));
+    end
+    bbox_props_out = AttractioNet_postprocess(boxes_uncut{kk}, ...
+        'thresholds',       box_prop_conf.threshold, ...
+        'use_gpu',          true, ...
+        'mult_thr_nms',     length(box_prop_conf.nms_iou_thrs)>1, ...
+        'nms_iou_thrs',     box_prop_conf.nms_iou_thrs, ...
+        'max_per_image',    box_prop_conf.max_per_image);
+    
+    if box_prop_conf.multiple_nms_test
+        proposals_per_im = cell(1+length(box_prop_conf.nms_range), 1);
+        proposals_per_im{1} = bbox_props_out;
+        
+        for i = 1:length(box_prop_conf.nms_range)
+            proposals_per_im{1+i} = AttractioNet_postprocess(boxes_uncut{kk}, ...
+                'nms_iou_thrs',     box_prop_conf.nms_range(i), ...
+                'max_per_image',    2000);
+        end
+    end
+    boxes_all{kk} = proposals_per_im;
+end
+%=============================
+
 %% normal nms below
 proposal_path_jot = cell(length(boxes_all{1}), 1);
 for i = 1:length(boxes_all{1})
-    aboxes = cell(length(im_list), 1);
-    parfor j = 1:length(im_list)
+    aboxes = cell(length(test_im_list), 1);
+    for j = 1:length(test_im_list)
         aboxes{j} = boxes_all{j}{i};
     end
     if i == 1
