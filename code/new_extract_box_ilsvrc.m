@@ -39,12 +39,17 @@ disp(model);
 %**************************************************************************
 %****************************** READ IMAGE ********************************
 % dataset
-result_name = 'provided_model_Aug_5th';
-sub_dataset = 'val1';
-imdb.name = 'ilsvrc14_val1';
+result_name = 'provided_model_Aug_14th';
+
+
+% sub_dataset = 'val1';
+imdb.name = 'ilsvrc14_val1_14';
+imdb.name = 'ilsvrc14_val1_13';
+imdb.name = 'ilsvrc14_pos1k_13';
+%imdb.name = 'ilsvrc14_real_test';
 % sub_dataset = 'train14';
 % imdb.name = 'ilsvrc14_train14';
-
+sub_dataset = strrep(imdb.name, 'ilsvrc14_', '');
 % ------------------------------------------
 result_path = sprintf('./box_proposals/author_provide/%s', sub_dataset);
 mkdir_if_missing([result_path '/' result_name]);
@@ -73,6 +78,44 @@ switch imdb.name
         temp = textscan(fid, '%s%s');
         test_im_list = temp{1}; clear temp;
         im_path = [root_folder '/../ILSVRC2013_DET_val'];
+        extension = '.JPEG';
+        imdb.flip = false;
+        
+        % the following datasets wont compute recall since I am just too lazy
+        % to collect their GT info.
+    case 'ilsvrc14_val1_14'
+        root_folder = './datasets/ilsvrc14_det/ILSVRC2014_devkit';
+        fid = fopen([root_folder '/data/det_lists/val1_14.txt'], 'r');
+        temp = textscan(fid, '%s%s');
+        test_im_list = temp{1}; clear temp;
+        im_path = [root_folder '/../ILSVRC2014_DET_train'];
+        extension = '';
+        imdb.flip = false;
+        
+    case 'ilsvrc14_val1_13'
+        root_folder = './datasets/ilsvrc14_det/ILSVRC2014_devkit';
+        fid = fopen([root_folder '/data/det_lists/val1_13.txt'], 'r');
+        temp = textscan(fid, '%s%s');
+        test_im_list = temp{1}; clear temp;
+        im_path = [root_folder '/../ILSVRC2013_DET_val'];
+        extension = '.JPEG';
+        imdb.flip = false;
+        
+    case 'ilsvrc14_real_test'
+        root_folder = './datasets/ilsvrc14_det/ILSVRC2014_devkit';
+        fid = fopen([root_folder '/data/det_lists/real_test.txt'], 'r');
+        temp = textscan(fid, '%s%s');
+        test_im_list = temp{1}; clear temp;
+        im_path = [root_folder '/../ILSVRC2015_DET_test'];
+        extension = '.JPEG';
+        imdb.flip = false;
+        
+    case 'ilsvrc14_pos1k_13'
+        root_folder = './datasets/ilsvrc14_det/ILSVRC2014_devkit';
+        fid = fopen([root_folder '/data/det_lists/pos1k_13.txt'], 'r');
+        temp = textscan(fid, '%s%s');
+        test_im_list = temp{1}; clear temp;
+        im_path = [root_folder '/../ILSVRC2014_DET_train'];
         extension = '.JPEG';
         imdb.flip = false;
 end
@@ -111,7 +154,7 @@ end
 % load(whole_proposal_file);
 % box_prop_conf.threshold = -Inf;
 % boxes_all = cell(length(test_im_list), 1);
-% 
+%
 % for kk = 1:length(boxes_uncut)
 %     if kk == 1 || kk == length(boxes_uncut) || mod(kk, 1000) == 0
 %         fprintf('temp, progress: (%d/%d)', kk, length(test_im_list));
@@ -122,11 +165,11 @@ end
 %         'mult_thr_nms',     length(box_prop_conf.nms_iou_thrs)>1, ...
 %         'nms_iou_thrs',     box_prop_conf.nms_iou_thrs, ...
 %         'max_per_image',    box_prop_conf.max_per_image);
-%     
+%
 %     if box_prop_conf.multiple_nms_test
 %         proposals_per_im = cell(1+length(box_prop_conf.nms_range), 1);
 %         proposals_per_im{1} = bbox_props_out;
-%         
+%
 %         for i = 1:length(box_prop_conf.nms_range)
 %             proposals_per_im{1+i} = AttractioNet_postprocess(boxes_uncut{kk}, ...
 %                 'nms_iou_thrs',     box_prop_conf.nms_range(i), ...
