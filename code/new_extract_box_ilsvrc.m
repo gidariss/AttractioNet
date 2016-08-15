@@ -9,9 +9,6 @@ caffe.reset_all();
 addpath('../faster_rcnn/functions/rpn');
 addpath(genpath('../faster_rcnn/utlis'));
 
-gpu_id = 0;
-caffe_set_device( gpu_id );
-caffe.set_mode_gpu();
 %**************************************************************************
 %***************************** LOAD MODEL *********************************
 model_dir_name = 'AttractioNet_Model';
@@ -41,18 +38,18 @@ disp(model);
 % dataset
 result_name = 'provided_model_Aug_14th';
 
-
-% sub_dataset = 'val1';
+fucking_start_im = 125001;
+%fucking_end_im = length(test_im_list);
+gpu_id = 0;
 imdb.name = 'ilsvrc14_val1_14';
 imdb.name = 'ilsvrc14_val1_13';
 imdb.name = 'ilsvrc14_pos1k_13';
 %imdb.name = 'ilsvrc14_real_test';
-% sub_dataset = 'train14';
-% imdb.name = 'ilsvrc14_train14';
+
 sub_dataset = strrep(imdb.name, 'ilsvrc14_', '');
 % ------------------------------------------
 result_path = sprintf('./box_proposals/author_provide/%s', sub_dataset);
-mkdir_if_missing([result_path '/' result_name]);
+mkdir_if_missing([result_path '/' result_name '/split']);
 switch imdb.name
     case 'ilsvrc14_train14'
         root_folder = '/home/hongyang/dataset/imagenet_det/ILSVRC2014_devkit';
@@ -126,59 +123,48 @@ if imdb.flip
     test_im_list_new(2:2:end) = test_im_list_flip;
     test_im_list = test_im_list_new;
 end
+if ~exist('fucking_end_im', 'var'), fucking_end_im = length(test_im_list); end
 
+caffe_set_device( gpu_id );
+caffe.set_mode_gpu();
 %**************************************************************************
 %*************************** RUN AttractioNet *****************************
 whole_proposal_file = fullfile(result_path, result_name, 'boxes_uncut.mat');
+split_file = @(x) fullfile(result_path, result_name, sprintf('/split/%s.mat', x(11:end)));
 
 if ~exist(whole_proposal_file, 'file')
     
-    boxes_all = cell(length(test_im_list), 1);
-    boxes_uncut = cell(length(test_im_list), 1);
-    
-    for i = 1:length(test_im_list)
+    %     boxes_all = cell(length(test_im_list), 1);
+    %     boxes_uncut = cell(length(test_im_list), 1);
+    for i = fucking_start_im : fucking_end_im
         
-        if i == 1 || i == length(test_im_list) || mod(i, 1000) == 0
-            fprintf('extract box, method: %s, dataset: %s, (%d/%d)...\n', ...
-                'attractioNet', sub_dataset, i, length(test_im_list));
+        if i == fucking_start_im || i == fucking_end_im || mod(i, 1000) == 0
+            fprintf('extract box, method: %s, dataset: %s, %d / (%d-%d), total: %d ...\n', ...
+                'attractioNet', sub_dataset, i, fucking_start_im, fucking_end_im, length(test_im_list));
         end
-        image = imread([im_path '/' test_im_list{i} '.JPEG']);
-        [boxes_all{i}, boxes_uncut{i}] = AttractioNet(model, image, box_prop_conf);
-        
+        if ~exist(split_file(test_im_list{i}), 'file')
+            image = imread([im_path '/' test_im_list{i} '.JPEG']);
+            [boxes_all_single, boxes_uncut_single] = AttractioNet(model, image, box_prop_conf);
+            save(split_file(test_im_list{i}), 'boxes_uncut_single', 'boxes_all_single');
+        end
     end
     caffe.reset_all();
-    save(whole_proposal_file, 'boxes_uncut');
+    %     save(whole_proposal_file, 'boxes_uncut');
 end
 
-% %% ========= temporal =========
-% load(whole_proposal_file);
-% box_prop_conf.threshold = -Inf;
-% boxes_all = cell(length(test_im_list), 1);
-%
-% for kk = 1:length(boxes_uncut)
-%     if kk == 1 || kk == length(boxes_uncut) || mod(kk, 1000) == 0
-%         fprintf('temp, progress: (%d/%d)', kk, length(test_im_list));
-%     end
-%     bbox_props_out = AttractioNet_postprocess(boxes_uncut{kk}, ...
-%         'thresholds',       box_prop_conf.threshold, ...
-%         'use_gpu',          true, ...
-%         'mult_thr_nms',     length(box_prop_conf.nms_iou_thrs)>1, ...
-%         'nms_iou_thrs',     box_prop_conf.nms_iou_thrs, ...
-%         'max_per_image',    box_prop_conf.max_per_image);
-%
-%     if box_prop_conf.multiple_nms_test
-%         proposals_per_im = cell(1+length(box_prop_conf.nms_range), 1);
-%         proposals_per_im{1} = bbox_props_out;
-%
-%         for i = 1:length(box_prop_conf.nms_range)
-%             proposals_per_im{1+i} = AttractioNet_postprocess(boxes_uncut{kk}, ...
-%                 'nms_iou_thrs',     box_prop_conf.nms_range(i), ...
-%                 'max_per_image',    2000);
-%         end
-%     end
-%     boxes_all{kk} = proposals_per_im;
-% end
-%=============================
+% merge them all
+im_num = length(dir([result_path '/' result_name '/split/*.mat']));
+assert(im_num == length(test_im_list), ...
+    sprintf('fuck! actual no of images vs total supposed no: %d vs %d', ...
+    im_num, length(test_im_list)));
+
+fprintf('merge these split results\n\n');
+boxes_all = cell(length(test_im_list), 1);
+for i = 1:length(test_im_list)
+    
+    ld = load(split_file(test_im_list{i}));
+    boxes_all{i} = ld.boxes_all_single;
+end
 
 %% normal nms below
 proposal_path_jot = cell(length(boxes_all{1}), 1);
@@ -197,14 +183,14 @@ for i = 1:length(boxes_all{1})
     save(proposal_path_jot{i}, 'aboxes');
 end
 
-% compute recall
-for i = 1:length(boxes_all{1})
-    recall_per_cls = compute_recall_ilsvrc(proposal_path_jot{i}, 300, imdb);
-    mean_recall = 100*mean(extractfield(recall_per_cls, 'recall'));
-    
-    cprintf('blue', 'i = %d, mean rec:: %.2f\n\n', i, mean_recall);
-    save([proposal_path_jot{i}(1:end-4) sprintf('_recall_%.2f.mat', mean_recall)], 'recall_per_cls');
-end
+% % compute recall
+% for i = 1:length(boxes_all{1})
+%     recall_per_cls = compute_recall_ilsvrc(proposal_path_jot{i}, 300, imdb);
+%     mean_recall = 100*mean(extractfield(recall_per_cls, 'recall'));
+%     
+%     cprintf('blue', 'i = %d, mean rec:: %.2f\n\n', i, mean_recall);
+%     save([proposal_path_jot{i}(1:end-4) sprintf('_recall_%.2f.mat', mean_recall)], 'recall_per_cls');
+% end
 
 %% multi-thres nms
 % ld = load(proposal_name);
@@ -244,3 +230,35 @@ end
 %             sprintf('_recall_%.2f.mat', mean_recall)], 'recall_per_cls');
 %     end
 % end
+
+
+
+% %% ========= temporal =========
+% load(whole_proposal_file);
+% box_prop_conf.threshold = -Inf;
+% boxes_all = cell(length(test_im_list), 1);
+%
+% for kk = 1:length(boxes_uncut)
+%     if kk == 1 || kk == length(boxes_uncut) || mod(kk, 1000) == 0
+%         fprintf('temp, progress: (%d/%d)', kk, length(test_im_list));
+%     end
+%     bbox_props_out = AttractioNet_postprocess(boxes_uncut{kk}, ...
+%         'thresholds',       box_prop_conf.threshold, ...
+%         'use_gpu',          true, ...
+%         'mult_thr_nms',     length(box_prop_conf.nms_iou_thrs)>1, ...
+%         'nms_iou_thrs',     box_prop_conf.nms_iou_thrs, ...
+%         'max_per_image',    box_prop_conf.max_per_image);
+%
+%     if box_prop_conf.multiple_nms_test
+%         proposals_per_im = cell(1+length(box_prop_conf.nms_range), 1);
+%         proposals_per_im{1} = bbox_props_out;
+%
+%         for i = 1:length(box_prop_conf.nms_range)
+%             proposals_per_im{1+i} = AttractioNet_postprocess(boxes_uncut{kk}, ...
+%                 'nms_iou_thrs',     box_prop_conf.nms_range(i), ...
+%                 'max_per_image',    2000);
+%         end
+%     end
+%     boxes_all{kk} = proposals_per_im;
+% end
+%=============================

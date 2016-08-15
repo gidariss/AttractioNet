@@ -14,6 +14,9 @@ function [ bbox_props_out, bbox_uncut, extra_out_data] = AttractioNet(model, img
 % proposal extraction process.
 
 model.max_rois_num_in_gpu = 1000;
+
+% TODO: pre-caution on test15: if the image is too small, just skip it.
+
 %************************* GENERATE SEED BOXES ****************************
 % generate seed boxes uniformly distributed arround the image
 bbox_props_in = single(AttractioNet_create_seed_boxes(img, conf.num_seed_boxes));
