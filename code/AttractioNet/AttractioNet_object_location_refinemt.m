@@ -8,29 +8,13 @@ function bboxes_out = AttractioNet_object_location_refinemt(model, image, bboxes
 % INPUTS:
 % 1) model:  (data type struct) the AttractioNet model
 % 2) image:  a [Height x Width x 3] uint8 matrix with the image 
-% 3) bboxes_in: a N x 4 array with the bounding box coordinates; each row  
-% is the oordinates of a bounding box in the form of [x0,y0,x1,y1] where 
-% (x0,y0) is tot-left corner and (x1,y1) is the bottom-right corner. N is 
+% 3) bboxes_in: a N x 4 array with the bounding box coordinates
 %
 % OUTPUT:
 % 1) bboxes_out : a N x 4 array with the refined bounding boxes. It has the
 % same format as bboxes_in
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 if ~exist('skip_image_conv_layers','var'), skip_image_conv_layers = false; end
-
 
 if isempty(bboxes_in)
     bboxes_out = zeros(0,5,'single');

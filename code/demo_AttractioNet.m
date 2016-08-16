@@ -1,18 +1,6 @@
 % demo_AttractioNet demonstrates how to use AttractioNet for extracting the
 % bounding box proposals from a single image.
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
+
 
 %************************* SET GPU/CPU DEVICE *****************************
 % By setting gpu_id = 1, the first GPU (one-based counting) is used for 
@@ -31,6 +19,7 @@ mat_file_name  = 'box_proposal_model.mat';
 model = AttractioNet_load_model(full_model_dir, mat_file_name);
 %**************************************************************************
 %********************** CONFIGURATION PARAMETERS **************************
+disp(' ');
 box_prop_conf = AttractioNet_get_defaul_conf();
 fprintf('AttractioNet configuration params:\n');
 disp(box_prop_conf);
@@ -65,9 +54,6 @@ bbox_proposals_top_k = bbox_proposals(1:k,1:4);
 figure(1); clf(1);
 imagesc(image);
 drawBBoxes(bbox_proposals_top_k,'LineWidth',3);
-title(sprintf('#%d box proposal',k));
-%**************************************************************************
+title(sprintf('top %d box proposal',k));
 
-%********************* FREE GPU/CPU MEMORY (Caffe) ************************
 caffe.reset_all();
-%**************************************************************************

@@ -1,4 +1,5 @@
-function [all_bboxes, dst_box_proposal_paths] = AttractioNet_run_on_dataset(model, image_paths, dst_dir, varargin)
+function [all_bboxes, dst_box_proposal_paths] = ...
+    AttractioNet_run_on_dataset(model, image_paths, dst_dir, varargin)
 % AttractioNet_run_on_dataset extracts the AttractioNet box proposals from
 % a set of images and saves them (using a single matlab file per image) 
 % under the specified destination directory.
@@ -23,20 +24,6 @@ function [all_bboxes, dst_box_proposal_paths] = AttractioNet_run_on_dataset(mode
 % all_bboxes_filepaths{i} is a string of the path to the matlab file that
 % contains the box proposals of the i-th image image_paths{i}. Note that
 % the matlab files have the same filenames as the original images.
-% 
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 ip = inputParser;
 ip.addParamValue('conf', struct);

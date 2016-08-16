@@ -1,19 +1,6 @@
 function AttractioNet_extract_box_proposals_from_dataset(model_dir_name, varargin)
 % AttractioNet_extract_box_proposals_from_dataset: extracts the
 % AttractioNet bounding box proposals from a dataset of images.
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 %****************************** OPTIONS ***********************************
 ip = inputParser;

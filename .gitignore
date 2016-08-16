@@ -5,3 +5,5 @@ models-exps
 code/MatlabAPI
 box_proposals
 *~
+
+*.mat

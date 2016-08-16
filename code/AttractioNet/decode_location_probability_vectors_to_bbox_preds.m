@@ -1,4 +1,5 @@
-function [bbox_pred, bbox_pred_in_region, bbox_pred_in_region_quantized] = decode_location_probability_vectors_to_bbox_preds(...
+function [bbox_pred, bbox_pred_in_region, bbox_pred_in_region_quantized] = ...
+    decode_location_probability_vectors_to_bbox_preds(...
     bbox_in, class_indices, loc_prob_vectors, conf)
 % decode_loc_probs_to_bbox_targets: given the input bounding boxes (bbox_in),
 % the category ids of each bounding box (class_indices), and the predicted
@@ -6,11 +7,11 @@ function [bbox_pred, bbox_pred_in_region, bbox_pred_in_region_quantized] = decod
 % returns the location of the predicted bounding boxes.
 % 
 % INPUTS:
-% 1) bbox_in: a N x 4 array with the input bounding box coordinates in the 
-% form of [xi0,yi0,xi1,yi1] where (xi0,yi0) is the tot-left corner and  
-% (xi1,yi1) is the bottom-right corner. N is the number of bounding boxes.
+% 1) bbox_in: a N x 4 array with the input bounding box coordinates
+%
 % 2) class_indices: a N x 1 array with the category id of each input
-% bounding box.
+% bounding box
+%
 % 3) loc_prob_vectors: a M x K x C x N array with the predicted probability
 % vectors of each input bounding box; N is the number of bounding boxes, C
 % is the number of categoris, M is the resolution of the target
@@ -23,6 +24,7 @@ function [bbox_pred, bbox_pred_in_region, bbox_pred_in_region_quantized] = decod
 % e.g. for the x axis we have 1 probability vector for the in-out elements, 
 % 1 probability vector for the left border, and 1 probability vector 
 % for the right border).
+%
 % 4) conf: struct with the configuration parameters of LocNet:
 %   4.1) conf.scale_ratio: (scalar value) the scaling factor of the search region
 %        w.r.t. the input bounding boxes. Specifically, given an input 
@@ -30,42 +32,33 @@ function [bbox_pred, bbox_pred_in_region, bbox_pred_in_region_quantized] = decod
 %        bounding box it "look" in a search region that is obtained by scaling
 %        the input bounding box by a scaling factor. The scaling factor is 
 %        given by the scale_ratio parameter.
+%
 %   4.2) conf.resolution: scalar value; In order for the LocNet to localize 
 %   the target bounding boxes inside the search region, it considers a division 
 %   of the search region in M horizontal stripes (rows) and M vertical stripes 
 %   (columns). The value of M is given by the parameter conf.resolution.
+%
 %   4.3) conf.num_classes: (scalar value) number of categories
+%
 %   4.4) conf.loc_type: string wiht the type of the localization model that  
 %   the LocNet implements. The possible options are: 'inout','borders', or 'combined'
 %
 % OUTPUTS:
 % 1) bbox_pred: a N x 5 array with the predicted bounding box coordinates in the 
-% form of [xt0,yt0,xt1,yt1,c] where (xt0,yt0) is the tot-left corner, (xt1,yt1)
-% is the bottom-right corner, and c is the category id of the bounding box.
-% 3) bbox_pred_in_region: a N x 5 array with the predicted bounding box  
+% form of [xt0,yt0,xt1,yt1,c] where c is the category id of the bounding box.
+%
+% 2) bbox_pred_in_region: a N x 5 array with the predicted bounding box  
 % coordinates in the form of [xtr0,ytr0,xtr1,ytr1] where (xtr0,ytr0) is 
 % the tot-left corner, (xtr1,ytr1) is the bottom-right corner, and c is the
 % category id of the bounding box. The coordinates are w.r.t. the 
 % corresponding search regions.
-% 2) bbox_target_quantized: a N x 5 array with the predicted bounding box  
+%
+% 3) bbox_target_quantized: a N x 5 array with the predicted bounding box  
 % coordinates in the form of [xtq0,ytq0,xtq1,ytq1] where (xtq0,ytq0) is 
 % the tot-left corner, (xtq1,ytq1) is the bottom-right corner, and c is the
 % category id of the bounding box. The coordinates are w.r.t. the 
 % corresponding search regions and quantized in discrite values between 1 
 % and resolution.
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 resolution  = conf.resolution;
 scale_ratio = conf.scale_ratio;
@@ -76,7 +69,8 @@ assert(size(loc_prob_vectors,1) == conf.resolution);
 if isfield(conf, 'class_agnostic') &&  conf.class_agnostic
     class_indices_inptut = ones(size(class_indices),'single');
     if size(loc_prob_vectors,4) == 1 && size(loc_prob_vectors,3) > 1
-        loc_prob_vectors = reshape(loc_prob_vectors,[size(loc_prob_vectors,1), size(loc_prob_vectors,2), 1, size(loc_prob_vectors,3)]);
+        loc_prob_vectors = reshape(loc_prob_vectors,[size(loc_prob_vectors,1), ...
+            size(loc_prob_vectors,2), 1, size(loc_prob_vectors,3)]);
     end
 else
     class_indices_inptut = class_indices;

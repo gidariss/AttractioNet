@@ -6,10 +6,7 @@ function [outputs, output_blob_names] = run_region_based_net_on_img(...
 % INPUTS:
 % 1) model:  (type struct) the bounding box recognition model
 % 2) image:  a [Height x Width x 3] uint8 matrix with the image 
-% 3) bboxes: a N x 4 array with the bounding box coordinates; each row is 
-% the oordinates of a bounding box in the form of [x0,y0,x1,y1] where 
-% (x0,y0) is tot-left corner and (x1,y1) is the bottom-right corner. N is 
-% the number of bounding boxes.
+% 3) bboxes: a N x 4 array with the bounding box coordinates
 % 4) out_blob_names_extra: (optional) a cell array with network blob names 
 % (in the form of strings) of which the data will be returned from the 
 % function. By default the function will always return the data of the
@@ -24,25 +21,11 @@ function [outputs, output_blob_names] = run_region_based_net_on_img(...
 % out_blob_names_total{i}.
 % 2) out_blob_names_total: a NB x 1 cell array with the inquired blob name
 % (in the form of strings)
-% 
-% This file is part of the code that implements the following paper:
-% Title      : "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"
-% Authors    : Spyros Gidaris, Nikos Komodakis
-% Institution: Universite Paris Est, Ecole des Ponts ParisTech
-% code       : https://github.com/gidariss/AttractioNet
-%
-% AUTORIGHTS
-% --------------------------------------------------------
-% Copyright (c) 2016 Spyros Gidaris
-%
-% Licensed under The MIT License [see LICENSE for details]
-% ---------------------------------------------------------
 
 ip = inputParser;
 ip.addParamValue('input_blob_names',    model.net.inputs,  @iscell);
 ip.addParamValue('output_blob_names',   model.net.outputs, @iscell);
 ip.addParamValue('skip_image_conv_layers', false, @islogical);
-
 ip.parse(varargin{:});
 opts = ip.Results;
 
@@ -66,11 +49,13 @@ image_size = size(image);
 % divide the regions in chunks of maximum size of max_rois_num_in_gpu
 num_rois   = numel(scale_ids{1});
 num_chunks = ceil(num_rois / max_rois_num_in_gpu);
+
 % fed the image blobs and on the network and get the output
 outputs = run_region_based_net(model, ...
     output_blob_names, input_blob_names, im_blob, rois_blob, ...
     num_rois, num_chunks, max_rois_num_in_gpu, opts.skip_image_conv_layers);    
 outputs = cellfun(@(x) reshape(x,[1, 1, 1, num_chunks]), outputs, 'UniformOutput', false);
+
 % format appropriately the output per blob
 outputs = format_outputs(outputs, num_rois, num_chunks);
 end
