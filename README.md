@@ -29,6 +29,8 @@ The problem of computing category agnostic bounding box proposals is utilized as
 -------:|:-------:|:-------:|:-------------:|:--------:|:----------:|:--------:
  *AttractioNet* based detector |  0.537  | 0.363   | 0.341         | 0.175    | 0.365      | 0.469    
 
+The *AttractioNet* model used for the generation of the above results was *trained on the COCO 2014 train set*.   
+
 ### Citing AttractioNet
 
 If you find AttractioNet useful in your research, please consider citing:   
@@ -112,7 +114,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
 After having complete the installation, you will be able to use *AttractioNet* for extracting bounding box proposals from any image. For a demo see the [demo_AttractioNet.m](https://github.com/gidariss/AttractioNet/blob/master/code/demo_AttractioNet.m) script.  Note that you will require a GPU with at least 4 Gbytes of memory in order to run the demo. 
 
 ### Downloading pre-computed bounding box proposals
-We provide pre-computed bounding box proposals --- using the same AttractioNet model that we provide here that *it is trained on the COCO 2014 train set*.--- for the following datasets:
+We provide pre-computed bounding box proposals using the same AttractioNet model we also provide here (*trained on the COCO 2014 train set*) for the following datasets:   
 
 **PASCAL VOC:**    
 - [**Trainval 2007 (135.8 MB)**](https://mega.nz/#!6ksHGTiI!R2h-j-tQNh9FSGP_kji02zdDbPK2lhEyWcMAKkH_ej4) 
