@@ -102,7 +102,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
     >> AttractioNet_build   
     ``` 
     Do not worry about the warning messages. They also appear on my machine. 
-5. Download the [***AttractioNet pre-trained model***](https://drive.google.com/file/d/0BwxkAdGoNzNTV2N3RjN5dXNpWVE/view?usp=sharing). Note that the provided model is actually the fast version of AttractioNet model that is described on section 3.1.3 of the technical report. **It is trained on the COCO 2014 train set**. After downloading, unzip and untar the .tar.gz archive file with the AttractioNet model files on the directory `$AttractioNet/models-exps/AttractioNet_Model` by running:   
+5. Download the [***AttractioNet pre-trained model***](https://drive.google.com/file/d/0BwxkAdGoNzNTV2N3RjN5dXNpWVE/view?usp=sharing). Note that the provided model is actually the fast version of AttractioNet model that is described on section 3.1.3 of the technical report. *It is trained on the COCO 2014 train set*. After downloading, unzip and untar the .tar.gz archive file with the AttractioNet model files on the directory `$AttractioNet/models-exps/AttractioNet_Model` by running:   
    ```Shell
    
    tar xvfz AttractioNet_Model.tar.gz -C $AttractioNet/models-exps/    
@@ -112,7 +112,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
 After having complete the installation, you will be able to use *AttractioNet* for extracting bounding box proposals from any image. For a demo see the [demo_AttractioNet.m](https://github.com/gidariss/AttractioNet/blob/master/code/demo_AttractioNet.m) script.  Note that you will require a GPU with at least 4 Gbytes of memory in order to run the demo. 
 
 ### Downloading pre-computed bounding box proposals
-We provide pre-computed bounding box proposals --- using the same AttractioNet model that we provide here --- for the following datasets:
+We provide pre-computed bounding box proposals --- using the same AttractioNet model that we provide here that *it is trained on the COCO 2014 train set*.--- for the following datasets:
 
 **PASCAL VOC:**    
 - [**Trainval 2007 (135.8 MB)**](https://mega.nz/#!6ksHGTiI!R2h-j-tQNh9FSGP_kji02zdDbPK2lhEyWcMAKkH_ej4) 
