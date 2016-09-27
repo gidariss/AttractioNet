@@ -7,7 +7,6 @@ The *AttractioNet* code implements the following arxiv paper:
 **Authors:**     Spyros Gidaris, Nikos Komodakis    
 **Institution:** Universite Paris Est, Ecole des Ponts ParisTech    
 **Code:**        https://github.com/gidariss/AttractioNet     
-**BMVC Link:**   http://www.bmva.org/bmvc/2016/papers/paper090/index.html    
 **Arxiv Link:**  https://arxiv.org/abs/1606.04446   
 
 **Abstract:**  
