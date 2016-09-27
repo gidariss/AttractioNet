@@ -104,7 +104,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
     >> AttractioNet_build   
     ``` 
     Do not worry about the warning messages. They also appear on my machine. 
-5. Download the [***AttractioNet pre-trained model***](https://drive.google.com/file/d/0BwxkAdGoNzNTV2N3RjN5dXNpWVE/view?usp=sharing). Note that the provided model is actually the fast version of AttractioNet model that is described on section 3.1.3 of the technical report. *It is trained on the COCO 2014 train set*. After downloading, unzip and untar the .tar.gz archive file with the AttractioNet model files on the directory `$AttractioNet/models-exps/AttractioNet_Model` by running:   
+5. Download the ***AttractioNet pre-trained model*** from [Google drive](https://drive.google.com/file/d/0BwxkAdGoNzNTV2N3RjN5dXNpWVE/view?usp=sharing) or [Mega](https://mega.nz/#!r90F3KJS!TM-slQgOF4OFWnVJrgZVr0S8aSn-f_s_IVFigbnMWrI). Note that the provided model is actually the fast version of AttractioNet model that is described on section 3.1.3 of the technical report. *It is trained on the COCO 2014 train set*. After downloading, unzip and untar the .tar.gz archive file with the AttractioNet model files on the directory `$AttractioNet/models-exps/AttractioNet_Model` by running:   
    ```Shell
    
    tar xvfz AttractioNet_Model.tar.gz -C $AttractioNet/models-exps/    
