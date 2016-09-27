@@ -6,8 +6,9 @@ The *AttractioNet* code implements the following arxiv paper:
 **Title:**      "Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization"    
 **Authors:**     Spyros Gidaris, Nikos Komodakis    
 **Institution:** Universite Paris Est, Ecole des Ponts ParisTech    
-**Code:**        https://github.com/gidariss/AttractioNet    
-**Link:**        https://arxiv.org/abs/1606.04446
+**Code:**        https://github.com/gidariss/AttractioNet     
+**BMVC Link:**   http://www.bmva.org/bmvc/2016/papers/paper090/index.html    
+**Arxiv Link:**  https://arxiv.org/abs/1606.04446   
 
 **Abstract:**  
 The problem of computing category agnostic bounding box proposals is utilized as a core component in many computer vision tasks and thus has lately attracted a lot of attention. In this work we propose a new approach to tackle this problem that is based on an active strategy for generating box proposals that starts from a set of seed boxes, which are uniformly distributed on the image, and then progressively moves its attention on the promising image areas where it is more likely to discover well localized bounding box proposals. We call our approach *AttractioNet* and a core component of it is a CNN-based category agnostic object location refinement module that is capable of yielding accurate and robust bounding box predictions regardless of the object category. We extensively evaluate our *AttractioNet* approach on several image datasets (i.e. COCO, PASCAL, ImageNet detection and NYU-Depth V2 datasets) reporting on all of them state-of-the-art results that surpass the previous work in the field by a significant margin and also providing strong empirical evidence that our approach is capable to generalize to unseen categories. Furthermore, we evaluate our *AttractioNet* proposals in the context of the object detection task using a VGG16-Net based detector and the achieved detection performance on COCO manages to significantly surpass all other VGG16-Net based detectors while even being competitive with a heavily tuned ResNet-101 based detector.
@@ -33,23 +34,25 @@ The *AttractioNet* model used for the generation of the above results was *train
 
 ### Citing AttractioNet
 
-If you find AttractioNet useful in your research, please consider citing:   
-```   
-@article{gidaris2016attend,  
+If you find AttractioNet useful in your research, please consider citing our BMVC paper:
+```
+@inproceedings{gidaris2016attendbmvc,  
   title={Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization},  
   author={Gidaris, Spyros and Komodakis, Nikos},   
-  year={2016}
-}  
-```
-and 
-```
-@inproceedings{gidaris2016locnet,  
-  title={LocNet: Improving Localization Accuracy for Object Detection},  
-  author={Gidaris, Spyros and Komodakis, Nikos},   
-  booktitle={Computer Vision and Pattern Recognition (CVPR), 2016 IEEE Conference on},  
+  booktitle={BMVC},  
   year={2016}  
 }
 ```
+or the significantly extended arxiv version of the former:   
+```   
+@article{gidaris2016attend,
+  title={Attend Refine Repeat: Active Box Proposal Generation via In-Out Localization},
+  author={Gidaris, Spyros and Komodakis, Nikos},
+  journal={arXiv preprint arXiv:1606.04446},
+  year={2016}
+}
+```
+
 
 ### License
 This code is released under the MIT License (refer to the LICENSE file for details).  
