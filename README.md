@@ -87,7 +87,7 @@ This code is released under the MIT License (refer to the LICENSE file for detai
    
     # $AttractioNet: directory where AttractioNet will be cloned    
     git clone https://github.com/gidariss/AttractioNet $AttractioNet  
-    ```   
+    ```
   From now on, the directory where *AttractioNet* is cloned will be called `$AttractioNet`.  
 3. Create a symbolic link of [Caffe](https://github.com/gidariss/caffe_LocNet/tree/AttractioNet) installatation directory at `$AttractioNet/external/caffe_AttractioNet`:  
    ```Shell
